@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                 .and()
                 .formLogin()
-                .successHandler(loginSuccessHandler)// Как это работает
+                .successHandler(loginSuccessHandler)
                 .permitAll()
                 .and()
                 .logout()
@@ -71,8 +71,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return authenticationProvider;
     }
 
-//    @Bean
-//    public SpringSecurityDialect springSecurityDialect(){
-//        return new SpringSecurityDialect();
-//    }
 }
