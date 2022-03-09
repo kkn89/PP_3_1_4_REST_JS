@@ -27,7 +27,7 @@ public class HibernateConfig {
     private Environment environment;
 
     @Autowired
-    public void setEnv(Environment env) {
+    public void setEnv(Environment environment) {
         this.environment = environment;
     }
 

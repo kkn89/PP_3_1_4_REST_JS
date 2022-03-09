@@ -17,6 +17,7 @@ import java.util.List;
 public class MainRestController {
 
     private final UserService userService;
+    private final RoleService roleService;
 
 
     @Autowired
