@@ -122,6 +122,7 @@ document.getElementById("editForm")
     .addEventListener("submit", editUser);
 
 async function editUser() {
+
     let user = {
         id: document.getElementById('id').value,
         username: document.getElementById('editUsername').value,
@@ -141,14 +142,14 @@ async function editUser() {
 
     if (updated) {
         $("#modalEdit .close").click();
-        await this.refreshTable();
+        refreshTable();
     }
-    // $("#modalEdit .close").click();
-    // refreshTable();
+
 }
 
 //---------------------------Удаление юзера---------------------------
 async function deleteUser() {
+
     await fetch("http://localhost:8080/api/delete/" + document.getElementById("delId").value, {
         method: 'DELETE',
         headers: {
