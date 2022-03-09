@@ -1,4 +1,4 @@
-//////////////////////Таблица всех юзеров
+/////////////////Таблица всех юзеров
 
 //декларируем функцию getAllUsers, описываем тело функции
 function getAllUsers() {
@@ -9,7 +9,7 @@ function getAllUsers() {
             // используем let, var устаревший вариант задания переменных + var видна везде , а let только в блоке функции
             let temp = '';
             users.forEach(function (user) {
-                //просто html код взятый из view
+                //html код взятый из view
                 temp += `
                 <tr>
                 <td id="id${user.id}">${user.id}</td>
@@ -34,7 +34,7 @@ function getAllUsers() {
 //вызываем написанную функцию
 getAllUsers()
 
-/////////////////Модальное окно для редактирования и удаления пользователя
+///////////////Модальное окно для редактирования и удаления пользователя
 
 //декларируем функцию openModal, описываем тело функции
 function openModal(id) {
@@ -45,7 +45,7 @@ function openModal(id) {
         }
     }).then(res => {
         res.json().then(user => {
-            //console.log(user);
+
             //document объект на view и служит документ для отображения и работы с элементам на view, с нашими id , username, password и тд
             document.getElementById('id').value = user.id;
             document.getElementById('editUsername').value = user.username;

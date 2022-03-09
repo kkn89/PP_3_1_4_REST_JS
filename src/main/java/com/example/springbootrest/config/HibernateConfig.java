@@ -24,11 +24,11 @@ import java.util.Properties;
 
 public class HibernateConfig {
 
-    private Environment env;
+    private Environment environment;
 
     @Autowired
     public void setEnv(Environment env) {
-        this.env = env;
+        this.environment = environment;
     }
 
     @Bean
@@ -37,7 +37,7 @@ public class HibernateConfig {
         factoryBean.setJpaVendorAdapter(getJpaVendorAdapter());
         factoryBean.setDataSource(getDataSource());
         factoryBean.setPersistenceUnitName("myJpaPersistenceUnit");
-        factoryBean.setPackagesToScan(env.getRequiredProperty("entitymanager.packages.to.scan"));
+        factoryBean.setPackagesToScan(environment.getRequiredProperty("entitymanager.packages.to.scan"));
         factoryBean.setJpaProperties(getHibernateProperties());
         return factoryBean;
     }
@@ -56,19 +56,19 @@ public class HibernateConfig {
     @Bean
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(env.getProperty("spring.datasource.url.driver"));
-        dataSource.setUrl(env.getProperty("spring.datasource.url"));
-        dataSource.setUsername(env.getProperty("spring.datasource.username"));
-        dataSource.setPassword(env.getProperty("spring.datasource.password"));
+        dataSource.setDriverClassName(environment.getProperty("spring.datasource.url.driver"));
+        dataSource.setUrl(environment.getProperty("spring.datasource.url"));
+        dataSource.setUsername(environment.getProperty("spring.datasource.username"));
+        dataSource.setPassword(environment.getProperty("spring.datasource.password"));
         return dataSource;
     }
 
     private Properties getHibernateProperties() {
         Properties properties = new Properties();
-        properties.put("hibernate.dialect", env.getRequiredProperty("hibernate.dialect"));
-        properties.put("hibernate.show_sql", env.getRequiredProperty("hibernate.show_sql"));
-        properties.put("hibernate.format_sql", env.getRequiredProperty("hibernate.format_sql"));
-        properties.put("hibernate.hbm2ddl.auto", env.getRequiredProperty("hibernate.hbm2ddl.auto"));
+        properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
+        properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
+        properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
+        properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
 
         return properties;
     }

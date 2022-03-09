@@ -59,10 +59,10 @@ public class InitData {
         roles1.add(roleService.getRoleByName("ROLE_USER"));
         roles1.add(roleService.getRoleByName("ROLE_ADMIN"));
         User number1 = new User();
-        number1.setUsername("1");
-        number1.setPassword("1");
-        number1.setLastName("1");
-        number1.setAge(1);
+        number1.setUsername("ivan");
+        number1.setPassword("ivan");
+        number1.setLastName("ivan");
+        number1.setAge(77);
         number1.setRoles(roles1);
         userService.saveUser(number1);
 
@@ -70,10 +70,10 @@ public class InitData {
         //roles2.add(roleService.getRoleByRole("ROLE_USER"));
         roles2.add(roleService.getRoleByName("ROLE_USER"));
         User number2 = new User();
-        number2.setUsername("2");
-        number2.setPassword("2");
-        number2.setLastName("2");
-        number2.setAge(2);
+        number2.setUsername("Misha");
+        number2.setPassword("Misha");
+        number2.setLastName("Misha");
+        number2.setAge(28);
         number2.setRoles(roles2);
         userService.saveUser(number2);
 
