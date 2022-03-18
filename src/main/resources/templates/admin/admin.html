@@ -95,12 +95,12 @@
                           <div class="form-group col-xs-12">
                             <div class="control-group required">
                               <div class="controls">
-                                <label for="id"
+                                <label for="editId"
                                        class="font-weight-bold">ID<input
                                         class="form-control"
                                         type="number"
                                         name="id"
-                                        id="id"
+                                        id="editId"
                                         readonly></label>
                                 <h1></h1>
                                 <label for="editUsername"
@@ -143,9 +143,17 @@
                                   <select class="form-control"
                                           name="roles"
                                           id="editRole"
-                                          multiple size="2">
-                                    <option value="ROLE_ADMIN">ADMIN</option>
-                                    <option value="ROLE_USER">USER</option>
+                                          multiple size="2"
+                                  required>
+                                    <option id="${roles}"></option>
+<!--                                    <option value="ROLE_USER">USER</option>-->
+<!--                                    <option-->
+<!--                                      id ="${role}">-->
+<!--&lt;!&ndash;                                            th:each="role : ${roles}"&ndash;&gt;-->
+<!--&lt;!&ndash;                                            th:value="${role}"&ndash;&gt;-->
+<!--&lt;!&ndash;                                            th:text="${role}">&ndash;&gt;-->
+<!--                                    </option>-->
+
                                   </select>
                                 </div>
                               </div>
@@ -156,7 +164,8 @@
                           <button type="button"
                                   class="btn btn-secondary"
                                   data-dismiss="modal">Close</button>
-                          <button type="submit"
+                          <button type="button"
+                                  onclick="editUser()"
                                   class="btn btn-primary"
                                   >Edit</button>
                         </div>
@@ -215,23 +224,37 @@
                                      name="delAge"
                                      id="delAge"
                                      disabled>
+                              <div>
 
-                              <label for="delRoles"
-                                     class="font-weight-bold">Role</label>
-                              <br>
-                              <select id="delRoles" class="form-control"
-                                      multiple required size="2"
-                                      name="delRoles"
-                                      disabled>
-                                <option value="ROLE_ADMIN">ADMIN</option>
-                                <option value="ROLE_USER">USER</option>
-                              </select>
+                                <label for="delRoles"
+                                       class="font-weight-bold">Role</label>
+                                <br>
+                                <select id="delRoles" class="form-control"
+                                        multiple required size="2"
+                                        name="delRoles"
+                                        disabled>
+                                  <option value="ROLE_ADMIN">ADMIN</option>
+                                  <option value="ROLE_USER">USER</option>
+                                </select>
+<!--                              <label for="delRoles"-->
+<!--                                     class="font-weight-bold">Role</label>-->
+<!--                              <br>-->
+<!--                              <input type="text" disabled class="form-control" id="delRoles">-->
+<!--                              </div>-->
+<!--                              <select  class="form-control"-->
+<!--                                      multiple required size="2"-->
+<!--                                      name="delRoles"-->
+<!--                                      disabled>-->
+<!--                                <option value="ROLE_ADMIN">ADMIN</option>-->
+<!--                                <option value="ROLE_USER">USER</option>-->
+<!--                              </select>-->
                             </div>
                           </div>
                         </div>
                         <div class="modal-body offset-sm-5">
                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                           <button type="button" class="btn btn-danger" onclick="deleteUser()">Delete</button>
+                        </div>
                         </div>
                       </form>
                     </div>
@@ -272,8 +295,12 @@
                               <div>
                                 <select id="newRole" class="form-control" name="roles" multiple
                                         required size="2">
-                                  <option value="ADMIN">ADMIN</option>
-                                  <option value="USER">USER</option>
+                                  <option value="ROLE_ADMIN">ADMIN</option>
+                                  <option value="ROLE_USER">USER</option>
+<!--                                  <option th:each="role : ${roles}"-->
+<!--                                          th:value="${role}"-->
+<!--                                          th:text="${role}">-->
+<!--                                  </option>-->
                                 </select>
                               </div>
                               <h1></h1>

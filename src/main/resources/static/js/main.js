@@ -1,29 +1,29 @@
 /////////////////Таблица всех юзеров
 
-//декларируем функцию getAllUsers, описываем тело функции
+
 function getAllUsers() {
     fetch("http://localhost:8080/api/users")
         //Получили промис в первом .then, который примет json и начнет его переделывать в объект, не известно как долго - поэтому промис(обещание), ну а второй .then нам обработает полученный объект
         .then(res => res.json())
         .then(users => {
-            // используем let, var устаревший вариант задания переменных + var видна везде , а let только в блоке функции
+
             let temp = '';
             users.forEach(function (user) {
                 //html код взятый из view
                 temp += `
-                <tr>
+                <tr id="tr${user.id}">
                 <td id="id${user.id}">${user.id}</td>
-                <td id="username${user.id}">${user.username}</td> 
-                <td id="lastName${user.id}">${user.lastName}</td> 
+                <td id="username${user.id}">${user.username}</td>
+                <td id="lastName${user.id}">${user.lastName}</td>
                 <td id="age${user.id}">${user.age}</td>
                 <td id="roles${user.id}">${user.roles.map(r => r.role.replace('ROLE_', '')).join(', ')}</td>
                 <td>
                 <button class="btn btn-info btn-md" type="button"
-                data-toggle="modal" data-target="#modalEdit" 
+                data-toggle="modal" data-target="#modalEdit"
                 onclick="openModal(${user.id})">Edit</button></td>
                 <td>
                 <button class="btn btn-danger btn-md" type="button"
-                data-toggle="modal" data-target="#modalDelete" 
+                data-toggle="modal" data-target="#modalDelete"
                 onclick="openModal(${user.id})">Delete</button></td>
               </tr>`;
             });
@@ -47,7 +47,7 @@ function openModal(id) {
         res.json().then(user => {
 
             //document объект на view и служит документ для отображения и работы с элементам на view, с нашими id , username, password и тд
-            document.getElementById('id').value = user.id;
+            document.getElementById('editId').value = user.id;
             document.getElementById('editUsername').value = user.username;
             document.getElementById('editPassword').value = user.password;
             document.getElementById('editLastName').value = user.lastName;
@@ -99,6 +99,7 @@ function addNewUser(e) { // е - объект-событие
 
 //декларируем функцию showUserInfo(), описываем тело функции
 function showUserInfo() {
+    // e.preventDefault()
     fetch('http://localhost:8080/api/userInfo')
         .then((res) => res.json())
         .then((user) => {
@@ -113,7 +114,6 @@ function showUserInfo() {
             document.getElementById("userInfo").innerHTML = temp;
         });
 }
-
 //вызываем написанную функцию
 showUserInfo();
 
@@ -121,36 +121,53 @@ showUserInfo();
 document.getElementById("editForm")
     .addEventListener("submit", editUser);
 
-async function editUser() {
+function editUser() {
 
     let user = {
-        id: document.getElementById('id').value,
+        id: document.getElementById('editId').value,
         username: document.getElementById('editUsername').value,
         lastName: document.getElementById('editLastName').value,
         age: document.getElementById('editAge').value,
         password: document.getElementById('editPassword').value,
         roles: $('#editRole').val()
     }
-    const updated = await fetch('http://localhost:8080/api/update', {
+     let tr =` <tr id="tr${user.id}">
+        <td id="id${user.id}">${user.id}</td>
+        <td id="username${user.id}">${user.username}</td>
+        <td id="lastName${user.id}">${user.lastName}</td>
+        <td id="age${user.id}">${user.age}</td>
+        <td id="roles${user.id}">${user.roles.map(r => r.role)}</td>
+        <td>
+            <button class="btn btn-info btn-md" type="button"
+                    data-toggle="modal" data-target="#modalEdit"
+                    onclick="openModal(${user.id})">Edit</button></td>
+        <td>
+            <button class="btn btn-danger btn-md" type="button"
+                    data-toggle="modal" data-target="#modalDelete"
+                    onclick="openModal(${user.id})">Delete</button></td>
+    </tr>`;
+    fetch('http://localhost:8080/api/update', {
         method: "PUT",
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json;charset=UTF-8'
         },
         body: JSON.stringify(user)
-    }).then(response => console.log(response));
-
-    if (updated) {
+    }).then(response => {
         $("#modalEdit .close").click();
-        refreshTable();
-    }
+        $("#tr" + user.id).replaceWith(tr);
+    });
+
+    // if (updated) {
+    //     $("#modalEdit .close").click();
+    //     $("#tr" + user.id).replaceWith(tr);
+    // }
 
 }
-
 //---------------------------Удаление юзера---------------------------
 async function deleteUser() {
-
-    await fetch("http://localhost:8080/api/delete/" + document.getElementById("delId").value, {
+    let userId = document.getElementById("delId").value;
+    await fetch("http://localhost:8080/api/delete/" + userId, {
         method: 'DELETE',
         headers: {
             'Accept': 'application/json',
@@ -159,16 +176,16 @@ async function deleteUser() {
     })
 
     $("#modalDelete .close").click();
-    refreshTable();
+    $("#tr" + userId).remove();
 }
 
 //---------------------------Обновление таблицы юзеров---------------------------
 function refreshTable() {
     let table = document.getElementById('allUsersTable')
-    while (table.rows.length > 1) {
+    if (table.rows.length > 1) {
         table.deleteRow(1)
     }
-    setTimeout(getAllUsers, 200);
+    setTimeout(getAllUsers, 1000);
 }
 
 /////////////////////////////Получение ролей///////////////////////////
