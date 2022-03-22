@@ -16,7 +16,7 @@ function getAllUsers() {
                 <td id="username${user.id}">${user.username}</td>
                 <td id="lastName${user.id}">${user.lastName}</td>
                 <td id="age${user.id}">${user.age}</td>
-                <td id="roles${user.id}">${user.roles.map(r => r.role.replace('ROLE_', '')).join(', ')}</td>
+                <td id="roles${user.id}">${user.roles.map(r => r.role)}</td>
                 <td>
                 <button class="btn btn-info btn-md" type="button"
                 data-toggle="modal" data-target="#modalEdit"
@@ -52,11 +52,13 @@ function openModal(id) {
             document.getElementById('editPassword').value = user.password;
             document.getElementById('editLastName').value = user.lastName;
             document.getElementById('editAge').value = user.age;
+            document.getElementById('editRole').value = user.role;
 
             document.getElementById('delId').value = user.id;
             document.getElementById('delUsername').value = user.username;
             document.getElementById('delLastName').value = user.lastName;
             document.getElementById('delAge').value = user.age;
+            document.getElementById('delRoles').value = user.role;
         })
     });
 }
@@ -99,7 +101,7 @@ function addNewUser(e) { // е - объект-событие
 
 //декларируем функцию showUserInfo(), описываем тело функции
 function showUserInfo() {
-    // e.preventDefault()
+
     fetch('http://localhost:8080/api/userInfo')
         .then((res) => res.json())
         .then((user) => {
@@ -109,7 +111,7 @@ function showUserInfo() {
             <td>${user.username}</td>
             <td>${user.lastName}</td>
             <td>${user.age}</td>
-            <td>${user.roles.map(r => r.role.replace("ROLE_", "")).join(", ")}</td>
+            <td>${user.roles.map(r => r.role)}</td>
             </tr>`;
             document.getElementById("userInfo").innerHTML = temp;
         });
@@ -129,14 +131,15 @@ function editUser() {
         lastName: document.getElementById('editLastName').value,
         age: document.getElementById('editAge').value,
         password: document.getElementById('editPassword').value,
-        roles: $('#editRole').val()
+        roles: getRoles(Array.from(document.getElementById('editRole').selectedOptions)
+            .map(role => role.value)),
     }
      let tr =` <tr id="tr${user.id}">
         <td id="id${user.id}">${user.id}</td>
         <td id="username${user.id}">${user.username}</td>
         <td id="lastName${user.id}">${user.lastName}</td>
         <td id="age${user.id}">${user.age}</td>
-        <td id="roles${user.id}">${user.roles.map(r => r.role)}</td>
+        <td id="roles${user.id}">${user.roles.map(r => r.name)}</td>
         <td>
             <button class="btn btn-info btn-md" type="button"
                     data-toggle="modal" data-target="#modalEdit"
@@ -180,23 +183,23 @@ async function deleteUser() {
 }
 
 //---------------------------Обновление таблицы юзеров---------------------------
-function refreshTable() {
-    let table = document.getElementById('allUsersTable')
-    if (table.rows.length > 1) {
-        table.deleteRow(1)
-    }
-    setTimeout(getAllUsers, 1000);
-}
+// function refreshTable() {
+//     let table = document.getElementById('allUsersTable')
+//     if (table.rows.length > 1) {
+//         table.deleteRow(1)
+//     }
+//     setTimeout(getAllUsers, 1000);
+// }
 
 /////////////////////////////Получение ролей///////////////////////////
 function getRoles(list) {
     let roles = [];
 //Если позиция элемента есть, то есть и эллемент
     if (list.indexOf("USER") >= 0) {
-        roles.push({"id": 2});
+        roles.push({"id": 2, "name": "ROLE_USER"});
     }
     if (list.indexOf("ADMIN") >= 0) {
-        roles.push({"id": 1});
+        roles.push({"id": 1, "name": "ROLE_ADMIN"});
     }
     return roles;
 }

@@ -143,17 +143,9 @@
                                   <select class="form-control"
                                           name="roles"
                                           id="editRole"
-                                          multiple size="2"
-                                  required>
-                                    <option id="${roles}"></option>
-<!--                                    <option value="ROLE_USER">USER</option>-->
-<!--                                    <option-->
-<!--                                      id ="${role}">-->
-<!--&lt;!&ndash;                                            th:each="role : ${roles}"&ndash;&gt;-->
-<!--&lt;!&ndash;                                            th:value="${role}"&ndash;&gt;-->
-<!--&lt;!&ndash;                                            th:text="${role}">&ndash;&gt;-->
-<!--                                    </option>-->
-
+                                          multiple size="2">
+                                    <option>ADMIN</option>
+                                    <option>USER</option>
                                   </select>
                                 </div>
                               </div>
@@ -233,21 +225,9 @@
                                         multiple required size="2"
                                         name="delRoles"
                                         disabled>
-                                  <option value="ROLE_ADMIN">ADMIN</option>
-                                  <option value="ROLE_USER">USER</option>
+                                  <option>ADMIN</option>
+                                  <option>USER</option>
                                 </select>
-<!--                              <label for="delRoles"-->
-<!--                                     class="font-weight-bold">Role</label>-->
-<!--                              <br>-->
-<!--                              <input type="text" disabled class="form-control" id="delRoles">-->
-<!--                              </div>-->
-<!--                              <select  class="form-control"-->
-<!--                                      multiple required size="2"-->
-<!--                                      name="delRoles"-->
-<!--                                      disabled>-->
-<!--                                <option value="ROLE_ADMIN">ADMIN</option>-->
-<!--                                <option value="ROLE_USER">USER</option>-->
-<!--                              </select>-->
                             </div>
                           </div>
                         </div>
@@ -295,12 +275,9 @@
                               <div>
                                 <select id="newRole" class="form-control" name="roles" multiple
                                         required size="2">
-                                  <option value="ROLE_ADMIN">ADMIN</option>
-                                  <option value="ROLE_USER">USER</option>
-<!--                                  <option th:each="role : ${roles}"-->
-<!--                                          th:value="${role}"-->
-<!--                                          th:text="${role}">-->
-<!--                                  </option>-->
+                                  <option>ADMIN</option>
+                                  <option>USER</option>
+
                                 </select>
                               </div>
                               <h1></h1>

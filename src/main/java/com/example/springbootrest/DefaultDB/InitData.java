@@ -31,7 +31,7 @@ public class InitData {
 
         //На слаке посоветовали чтобы роли не дублировались загружать роли по имени из репозитория, из них делал новый set и в юзера засовывал
         Set<Role> rolesAdmin = new HashSet<>();
-        rolesAdmin.add(roleService.getRoleByRole("ROLE_USER"));
+//        rolesAdmin.add(roleService.getRoleByRole("ROLE_USER"));
         rolesAdmin.add(roleService.getRoleByRole("ROLE_ADMIN"));
         User admin = new User();
         admin.setUsername("admin");
