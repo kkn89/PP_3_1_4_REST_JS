@@ -16,7 +16,7 @@ function getAllUsers() {
                 <td id="username${user.id}">${user.username}</td>
                 <td id="lastName${user.id}">${user.lastName}</td>
                 <td id="age${user.id}">${user.age}</td>
-                <td id="roles${user.id}">${user.roles.map(r => r.role)}</td>
+                <td id="roles${user.id}">${user.roles.map(r => r.role.replace('ROLE_', ' '))}</td>
                 <td>
                 <button class="btn btn-info btn-md" type="button"
                 data-toggle="modal" data-target="#modalEdit"
@@ -58,7 +58,6 @@ function openModal(id) {
             document.getElementById('delUsername').value = user.username;
             document.getElementById('delLastName').value = user.lastName;
             document.getElementById('delAge').value = user.age;
-            document.getElementById('delRoles').value = user.role;
         })
     });
 }
@@ -74,8 +73,8 @@ function addNewUser(e) { // е - объект-событие
     let lastname = document.getElementById('newLastName').value;
     let age = document.getElementById('newAge').value;
     let password = document.getElementById('newPassword').value;
-    let roles = getRoles(Array.from(document.getElementById('newRole').selectedOptions)
-        .map(role => role.value));
+    let roles = getRoles(Array.from(document.getElementById('newRole').selectedOptions));
+
     fetch("http://localhost:8080/api/newUser", {
         method: "POST",
         headers: {
@@ -111,7 +110,7 @@ function showUserInfo() {
             <td>${user.username}</td>
             <td>${user.lastName}</td>
             <td>${user.age}</td>
-            <td>${user.roles.map(r => r.role)}</td>
+            <td>${user.roles.map(r => r.role.replace('ROLE_', ' '))}</td>
             </tr>`;
             document.getElementById("userInfo").innerHTML = temp;
         });
@@ -124,22 +123,21 @@ document.getElementById("editForm")
     .addEventListener("submit", editUser);
 
 function editUser() {
-
+   let roles = getRoles(Array.from(document.getElementById('editRole').selectedOptions));
     let user = {
         id: document.getElementById('editId').value,
         username: document.getElementById('editUsername').value,
         lastName: document.getElementById('editLastName').value,
         age: document.getElementById('editAge').value,
         password: document.getElementById('editPassword').value,
-        roles: getRoles(Array.from(document.getElementById('editRole').selectedOptions)
-            .map(role => role.value)),
+        roles: roles
     }
      let tr =` <tr id="tr${user.id}">
         <td id="id${user.id}">${user.id}</td>
         <td id="username${user.id}">${user.username}</td>
         <td id="lastName${user.id}">${user.lastName}</td>
         <td id="age${user.id}">${user.age}</td>
-        <td id="roles${user.id}">${user.roles.map(r => r.name)}</td>
+        <td id="roles${user.id}">${roles.map(r => r.role)}</td>
         <td>
             <button class="btn btn-info btn-md" type="button"
                     data-toggle="modal" data-target="#modalEdit"
@@ -161,11 +159,6 @@ function editUser() {
         $("#tr" + user.id).replaceWith(tr);
     });
 
-    // if (updated) {
-    //     $("#modalEdit .close").click();
-    //     $("#tr" + user.id).replaceWith(tr);
-    // }
-
 }
 //---------------------------Удаление юзера---------------------------
 async function deleteUser() {
@@ -182,24 +175,20 @@ async function deleteUser() {
     $("#tr" + userId).remove();
 }
 
-//---------------------------Обновление таблицы юзеров---------------------------
-// function refreshTable() {
-//     let table = document.getElementById('allUsersTable')
-//     if (table.rows.length > 1) {
-//         table.deleteRow(1)
-//     }
-//     setTimeout(getAllUsers, 1000);
-// }
 
 /////////////////////////////Получение ролей///////////////////////////
 function getRoles(list) {
     let roles = [];
-//Если позиция элемента есть, то есть и эллемент
-    if (list.indexOf("USER") >= 0) {
-        roles.push({"id": 2, "name": "ROLE_USER"});
-    }
-    if (list.indexOf("ADMIN") >= 0) {
-        roles.push({"id": 1, "name": "ROLE_ADMIN"});
-    }
+    list.forEach(o => {
+        roles.push({"id": o.value, "role": o.text});
+    });
     return roles;
 }
+///////////////////////////////Динамическое добавление ролей вместо <option> в селекте в html-странице////////////
+let array = {1: 'ADMIN', 2: 'USER'};
+
+$.each(array, function(key, value) {
+    $('#editRole').append('<option value="' + key + '">' + value + '</option>');
+    $('#newRole').append('<option value="' + key + '">' + value + '</option>');
+    $('#delRoles').append('<option value="' + key + '">' + value + '</option>');
+});
