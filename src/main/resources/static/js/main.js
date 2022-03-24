@@ -2,7 +2,7 @@
 
 
 function getAllUsers() {
-    fetch("http://localhost:8080/api/users")
+    fetch("http://localhost:8080/users")
         //Получили промис в первом .then, который примет json и начнет его переделывать в объект, не известно как долго - поэтому промис(обещание), ну а второй .then нам обработает полученный объект
         .then(res => res.json())
         .then(users => {
@@ -16,7 +16,7 @@ function getAllUsers() {
                 <td id="username${user.id}">${user.username}</td>
                 <td id="lastName${user.id}">${user.lastName}</td>
                 <td id="age${user.id}">${user.age}</td>
-                <td id="roles${user.id}">${user.roles.map(r => r.role.replace('ROLE_', ' '))}</td>
+                <td id="roles${user.id}">${user.roles.map(r => r.role.replace('ROLE_', ''))}</td>
                 <td>
                 <button class="btn btn-info btn-md" type="button"
                 data-toggle="modal" data-target="#modalEdit"
@@ -38,7 +38,7 @@ getAllUsers()
 
 //декларируем функцию openModal, описываем тело функции
 function openModal(id) {
-    fetch("http://localhost:8080/api/showUser/" + id, {
+    fetch("http://localhost:8080/showUser/" + id, {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json;charset=UTF-8'
@@ -75,7 +75,7 @@ function addNewUser(e) { // е - объект-событие
     let password = document.getElementById('newPassword').value;
     let roles = getRoles(Array.from(document.getElementById('newRole').selectedOptions));
 
-    fetch("http://localhost:8080/api/newUser", {
+    fetch("http://localhost:8080/newUser", {
         method: "POST",
         headers: {
             'Accept': 'application/json',
@@ -101,7 +101,7 @@ function addNewUser(e) { // е - объект-событие
 //декларируем функцию showUserInfo(), описываем тело функции
 function showUserInfo() {
 
-    fetch('http://localhost:8080/api/userInfo')
+    fetch('http://localhost:8080/userInfo')
         .then((res) => res.json())
         .then((user) => {
             let temp = "";
@@ -110,9 +110,9 @@ function showUserInfo() {
             <td>${user.username}</td>
             <td>${user.lastName}</td>
             <td>${user.age}</td>
-            <td>${user.roles.map(r => r.role.replace('ROLE_', ' '))}</td>
+            <td>${user.roles.map(r => r.role.replace('ROLE_', ''))}</td>
             </tr>`;
-            document.getElementById("userInfo").innerHTML = temp;
+            document.getElementById("showUserInfo").innerHTML = temp;
         });
 }
 //вызываем написанную функцию
@@ -147,7 +147,7 @@ function editUser() {
                     data-toggle="modal" data-target="#modalDelete"
                     onclick="openModal(${user.id})">Delete</button></td>
     </tr>`;
-    fetch('http://localhost:8080/api/update', {
+    fetch('http://localhost:8080/update', {
         method: "PUT",
         headers: {
             'Accept': 'application/json',
@@ -159,11 +159,13 @@ function editUser() {
         $("#tr" + user.id).replaceWith(tr);
     });
 
+
+
 }
 //---------------------------Удаление юзера---------------------------
 async function deleteUser() {
     let userId = document.getElementById("delId").value;
-    await fetch("http://localhost:8080/api/delete/" + userId, {
+    await fetch("http://localhost:8080/delete/" + userId, {
         method: 'DELETE',
         headers: {
             'Accept': 'application/json',
@@ -192,3 +194,6 @@ $.each(array, function(key, value) {
     $('#newRole').append('<option value="' + key + '">' + value + '</option>');
     $('#delRoles').append('<option value="' + key + '">' + value + '</option>');
 });
+
+
+//запрос на получение данных в виде json

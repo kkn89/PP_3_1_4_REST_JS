@@ -8,12 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+//@RequestMapping("/api")
 public class MainRestController {
 
     private final UserService userService;
@@ -44,11 +47,11 @@ public class MainRestController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @GetMapping("/userInfo")
-    public ResponseEntity<User> showUserInfo(@AuthenticationPrincipal User user) throws NotFoundException {
-        User userById = userService.getUserByName(user.getUsername());
-        return ResponseEntity.ok(userById);
-    }
+//    @GetMapping("/userInfo1")
+//    public ResponseEntity<User> showUserInfo(@AuthenticationPrincipal User user) throws NotFoundException {
+//        User userById = userService.getUserByName(user.getUsername());
+//        return ResponseEntity.ok(userById);
+//    }
 
     @PostMapping("/newUser")
     public ResponseEntity<User> addUser(@RequestBody User user) throws NotFoundException {
@@ -68,5 +71,8 @@ public class MainRestController {
         userService.removeUser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
+    @GetMapping("/userInfo")
+    public ResponseEntity<User> showUserById(@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(userService.getUserById(user.getId()));
+    }
 }

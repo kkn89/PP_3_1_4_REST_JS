@@ -26,22 +26,14 @@ public class PageController {
     @GetMapping("/admin")
     public String adminPage(Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("user", user);
-        model.addAttribute("users", userService.getAllUsers());
-        model.addAttribute("roles", roleService.getAllRoles());
         return "/admin/admin";
     }
 
     @GetMapping("/user")
-    public String showUser(@AuthenticationPrincipal User userModel, Model model) throws NotFoundException {
-        User user = userService.getUserByName(userModel.getUsername());
+    public String showUser(@AuthenticationPrincipal User user, Model model) throws NotFoundException {
         model.addAttribute("user", user);
         return "/user/userInfo";
     }
 
-    @GetMapping("/user/{id}")
-    public String showUserById(@PathVariable("id") long id, Model model) {
-        User user = userService.getUserById(id);
-        model.addAttribute("user", user);
-        return "/user/userInfo";
-    }
+
 }

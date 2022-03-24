@@ -57,15 +57,7 @@
                         <th>Role</th>
                       </tr>
                       </thead>
-<!--                      <tbody id="userInfo"></tbody>-->
-                      <tbody>
-                      <tr>
-                        <td th:text="${user.getId()}"></td>
-                        <td th:text="${user.getUsername()}"></td>
-                        <td th:text="${user.getLastName()}"></td>
-                        <td th:text="${user.getAge()}"></td>
-                        <td th:utext="${#strings.arrayJoin(user.getRoles(), ' ')}"></td>
-                      </tr>
+                      <tbody id="userInfo">
                       </tbody>
                     </table>
                   </div>
@@ -86,6 +78,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
         crossorigin="anonymous"></script>
-<script type="text/javascript" th:src="@{/js/main.js}" src="../../static/js/main.js"></script>
+<script type="text/javascript" th:src="@{/js/userInfo.js}" src="../../static/js/main.js"></script>
 </body>
 </html>
