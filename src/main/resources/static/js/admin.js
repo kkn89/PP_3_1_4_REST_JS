@@ -135,7 +135,7 @@ document.getElementById("editForm")
     .addEventListener("submit", editUser);
 
 function editUser() {
-   let roles = getRoles(Array.from(document.getElementById('editRole').selectedOptions));
+    let roles = getRoles(Array.from(document.getElementById('editRole').selectedOptions));
     let user = {
         id: document.getElementById('editId').value,
         username: document.getElementById('editUsername').value,
@@ -144,7 +144,7 @@ function editUser() {
         password: document.getElementById('editPassword').value,
         roles: roles
     }
-     let tr =` <tr id="tr${user.id}">
+    let tr =` <tr id="tr${user.id}">
         <td id="id${user.id}">${user.id}</td>
         <td id="username${user.id}">${user.username}</td>
         <td id="lastName${user.id}">${user.lastName}</td>
