@@ -1,5 +1,6 @@
 package com.example.springbootrest.controller;
 
+import com.example.springbootrest.model.Role;
 import com.example.springbootrest.model.User;
 import com.example.springbootrest.service.RoleService;
 import com.example.springbootrest.service.UserService;
@@ -74,5 +75,13 @@ public class MainRestController {
     @GetMapping("/userInfo")
     public ResponseEntity<User> showUserById(@AuthenticationPrincipal User user) {
         return ResponseEntity.ok(userService.getUserById(user.getId()));
+    }
+    @GetMapping("/roles")
+    ResponseEntity<List<Role>>getAllRoles(){
+        return new ResponseEntity<>(roleService.getAllRoles(), HttpStatus.OK);
+    }
+    @GetMapping("/roles/{id}")
+    ResponseEntity<Role> getRoleById(@PathVariable("id") Long id){
+        return new ResponseEntity<>(roleService.getRoleById(id), HttpStatus.OK);
     }
 }

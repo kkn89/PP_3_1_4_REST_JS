@@ -1,12 +1,9 @@
 /////////////////Таблица всех юзеров
-
-
 function getAllUsers() {
     fetch("http://localhost:8080/users")
         //Получили промис в первом .then, который примет json и начнет его переделывать в объект, не известно как долго - поэтому промис(обещание), ну а второй .then нам обработает полученный объект
         .then(res => res.json())
         .then(users => {
-
             let temp = '';
             users.forEach(function (user) {
                 //html код взятый из view
@@ -30,10 +27,25 @@ function getAllUsers() {
             document.getElementById("allUsersTable").innerHTML = temp;
         });
 }
-
 //вызываем написанную функцию
 getAllUsers()
-
+///////////динамическое получение ролей///////////
+function getAllRoles(){
+    fetch("http://localhost:8080/roles")
+        .then(res => res.json())
+        .then(roles => {
+            let temp = '';
+            roles.forEach(function (role){
+                temp +=`
+                <option value ="${role.id}">${role.role.replace('ROLE_', '')}</option>
+                `
+            });
+            document.getElementById("newRole").innerHTML = temp;
+            document.getElementById("editRole").innerHTML = temp;
+            document.getElementById("delRoles").innerHTML = temp;
+        });
+}
+getAllRoles()
 ///////////////Модальное окно для редактирования и удаления пользователя
 
 //декларируем функцию openModal, описываем тело функции
@@ -157,10 +169,7 @@ function editUser() {
     }).then(response => {
         $("#modalEdit .close").click();
         $("#tr" + user.id).replaceWith(tr);
-    });
-
-
-
+    })
 }
 //---------------------------Удаление юзера---------------------------
 async function deleteUser() {
@@ -186,14 +195,3 @@ function getRoles(list) {
     });
     return roles;
 }
-///////////////////////////////Динамическое добавление ролей вместо <option> в селекте в html-странице////////////
-let array = {1: 'ADMIN', 2: 'USER'};
-
-$.each(array, function(key, value) {
-    $('#editRole').append('<option value="' + key + '">' + value + '</option>');
-    $('#newRole').append('<option value="' + key + '">' + value + '</option>');
-    $('#delRoles').append('<option value="' + key + '">' + value + '</option>');
-});
-
-
-//запрос на получение данных в виде json
